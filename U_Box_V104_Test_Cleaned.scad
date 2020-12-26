@@ -256,69 +256,92 @@ module foot(FootDia,FootHole,FootHeight){
     }
 }// Fin module foot
 
-module Feet(FootHeight, FootDia, FootHole, PCBLength, PCBWidth, PCBName){
+module Feet(FootHeight, FootDia, FootHole, PCBLength, PCBWidth, PCBName, Foot1_X, Foot1_Y,Foot2_X, Foot2_Y,Foot3_X, Foot3_Y,Foot4_X, Foot4_Y,){
+    
+    // Holds the absolute reference values for the "left", "bottom" and "base" edges
+    PCB_LeftEdgeX = 3*Thick+2;
+    PCB_BottomEdgeY = Thick+5;
+    PCB_BaseEdgeZ = FootHeight+(Thick/2)-0.5;
+    PCB_RightEdgeX = PCB_LeftEdgeX + PCBLength;
+    PCB_TopEdgeY = PCB_BottomEdgeY + PCBWidth;
+    
     //////////////////// - PCB only visible in the preview mode - /////////////////////
-    translate([3*Thick+2,Thick+5,FootHeight+(Thick/2)-0.5]){
-        %square ([PCBLength+10,PCBWidth+10]);
+    translate([PCB_LeftEdgeX,PCB_BottomEdgeY,PCB_BaseEdgeZ]){
+        %square ([PCBLength,PCBWidth]);
         translate([PCBLength/2,PCBWidth/2,0.5]){
-            color("Olive")
-            %text(PCBName, halign="center", valign="center", font="Arial black");
+            color("Olive"){
+                %text(PCBName, halign="center", valign="center", font="Arial black");
+            }
         }
     }
-    PCB1Foot1_OffsetX = 9.48;
-    PCB1Foot1_OffsetY = 2.4;
-    PCB1Foot2_OffsetX = -4;
-    PCB1Foot2_OffsetY = 0;
-    PCB1Foot3_OffsetX = -17.3;
-    PCB1Foot3_OffsetY = -18;
-    PCB1Foot4_OffsetX = 9.48;
-    PCB1Foot4_OffsetY = -21.1;
+
+    translate([PCB_LeftEdgeX, PCB_BottomEdgeY, PCB_BaseEdgeZ]){
+        %cube([10,10,2]);
+        translate([5,5,2]){
+            color("Olive"){
+                %text("1", halign="center", valign="center", font="Arial black", size=3);
+            }
+        }
+    }
+    translate([PCB_LeftEdgeX, PCB_TopEdgeY-10, PCB_BaseEdgeZ]){
+        %cube([10,10,2]);
+        translate([5,5,2]){
+            color("Olive"){
+                %text("2", halign="center", valign="center", font="Arial black", size=3);
+            }
+        }
+    }
+    translate([PCB_RightEdgeX-10, PCB_BottomEdgeY, PCB_BaseEdgeZ]){
+        %cube([10,10,2]);
+        translate([5,5,2]){
+            color("Olive"){
+                %text("3", halign="center", valign="center", font="Arial black", size=3);
+            }
+        }
+    }
+    translate([PCB_RightEdgeX-10, PCB_TopEdgeY-10, PCB_BaseEdgeZ]){
+        %cube([10,10,2]);
+        translate([5,5,2]){
+            color("Olive"){
+                %text("4", halign="center", valign="center", font="Arial black", size=3);
+            }
+        }
+    }
+    Foot1_X=12;
+    Foot1_Y=5;
+    Foot2_X=12;
+    Foot2_Y=21.5;
+    Foot3_X=7.23;
+    Foot3_Y=1.6;
+    Foot4_X=19;
+    Foot4_Y=18;
+    
+    Foot1_Offset_LeftEdge=PCB_LeftEdgeX+Foot1_X;
+    Foot1_Offset_BottomEdge=PCB_BottomEdgeY+Foot1_Y;
+    Foot2_Offset_LeftEdge=PCB_LeftEdgeX+Foot2_X;
+    Foot2_Offset_TopEdge=PCB_TopEdgeY-Foot2_Y;
+    Foot3_Offset_RightEdge=PCB_RightEdgeX-Foot3_X;
+    Foot3_Offset_BottomEdge=PCB_BottomEdgeY+Foot3_Y;    
+    Foot4_Offset_RightEdge=PCB_RightEdgeX-Foot4_X;
+    Foot4_Offset_TopEdge=PCB_TopEdgeY-Foot4_Y;
+
     ////////////////////////////// - 4 Feet - //////////////////////////////////////////
-    translate([
-        3*Thick+7+PCB1Foot1_OffsetX,
-        Thick+10+PCB1Foot1_OffsetY,
-        Thick/2]
-    ){
+    translate([Foot1_Offset_LeftEdge, Foot1_Offset_BottomEdge, Thick/2]){
+        foot(FootDia,FootHole,FootHeight);
+    }
+    
+    translate([Foot2_Offset_LeftEdge, Foot2_Offset_TopEdge, Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }
 
-    translate([
-        (3*Thick)+PCBLength+7+PCB1Foot2_OffsetX,
-        Thick+10+PCB1Foot2_OffsetY,
-        Thick/2
-    ]){
+    translate([Foot3_Offset_RightEdge, Foot3_Offset_BottomEdge, Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }
-
-    translate([
-        (3*Thick)+PCBLength+7+PCB1Foot3_OffsetX,
-        (Thick)+PCBWidth+10+PCB1Foot3_OffsetY,
-        Thick/2
-    ]){
+    
+    translate([Foot4_Offset_RightEdge, Foot4_Offset_TopEdge, Thick/2]){
         foot(FootDia,FootHole,FootHeight);
     }
-
-    translate([
-        3*Thick+7++PCB1Foot4_OffsetX,
-        (Thick)+PCBWidth+10+PCB1Foot4_OffsetY,
-        Thick/2
-    ]){
-        foot(FootDia,FootHole,FootHeight);
-    }
-
-////////////////////////////// - 4 Feet - //////////////////////////////////////////
-//translate([3*Thick+7,Thick+10,Thick/2]){
-//    foot(FootDia,FootHole,FootHeight);
-//}
-//translate([(3*Thick)+PCBLength+7-4,Thick+10,Thick/2]){
-//    foot(FootDia,FootHole,FootHeight);
-//    }
-//translate([(3*Thick)+PCBLength+7,(Thick)+PCBWidth+10,Thick/2]){
-//    foot(FootDia,FootHole,FootHeight);
-//    }
-//translate([3*Thick+7,(Thick)+PCBWidth+10,Thick/2]){
-//    foot(FootDia,FootHole,FootHeight);
-//}
+    
 } // Fin du module Feet
 
 ////////////////////////////////////////////////////////////////////////
