@@ -51,7 +51,7 @@ Vent          = true;
 Vent_width    = 1.5;
 
 /*[PCB Test Modes]*/
-PCB1_TestFit=false;
+PCB1_TestFit=true;
 
 /* [PCB_Feet] */
 //All dimensions are from the center foot axis
@@ -490,8 +490,8 @@ if(TShell)
 if(BShell) {
     // Coque bas - Bottom shell
     if(PCB1_TestFit){
-        translate([3*Thick+4,Thick+7,Thick]){
-            square ([PCB1Length+10,PCB1Width+10]);
+        translate([3*Thick,Thick+3,Thick]){
+            square ([PCB1Length+8,PCB1Width+8]);
         }
     } else {
         color(Couleur1){
