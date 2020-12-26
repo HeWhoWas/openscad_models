@@ -44,9 +44,9 @@ Resolution    = 50;//[1:100]
 // - Tolérance - Tolerance (Panel/rails gap)
 m             = 0.9;
 // Pieds PCB - PCB feet (x4)
-PCBFeet       = 1;// [0:No, 1:Yes]
+PCBFeet       = true; 
 // - Decorations to ventilation holes
-Vent          = 1;// [0:No, 1:Yes]
+Vent          = true;
 // - Decoration-Holes width (in mm)
 Vent_width    = 1.5;
 
@@ -89,13 +89,13 @@ PCB2FootHole        = 3;
 
 /* [STL element to export] */
 //Coque haut - Top shell
-TShell          = 0;// [0:No, 1:Yes]
+TShell          = false;// [0:No, 1:Yes]
 //Coque bas- Bottom shell
-BShell          = 1;// [0:No, 1:Yes]
+BShell          = true;// [0:No, 1:Yes]
 //Panneau avant - Front panel
-FPanL           = 0;// [0:No, 1:Yes]
+FPanL           = false;// [0:No, 1:Yes]
 //Panneau arrière - Back panel
-BPanL           = 0;// [0:No, 1:Yes]
+BPanL           = false;// [0:No, 1:Yes]
 
 
 
@@ -454,7 +454,7 @@ module BPanL(){
 }
 
 /////////////////////////// <- Main part -> /////////////////////////
-if(TShell==1)
+if(TShell)
 // Coque haut - Top Shell
         color( Couleur1,1){
             translate([0,Width,Height+0.2]){
@@ -464,7 +464,7 @@ if(TShell==1)
                 }
         }
 
-if(BShell==1) {
+if(BShell) {
     // Coque bas - Bottom shell
     if(PCB1_TestFit){
         translate([3*Thick+4,Thick+7,Thick]){
@@ -477,7 +477,7 @@ if(BShell==1) {
     }
 
     // Pied support PCB - PCB feet
-    if (PCBFeet==1) {
+    if (PCBFeet) {
         // Feet
         translate([PCB1PosX,PCB1PosY,0]){
             Feet(PCB1FootHeight, PCB1FootDia, PCB1FootHole, PCB1Length, PCB1Width, "PCB-1");
@@ -490,11 +490,11 @@ if(BShell==1) {
 
 // Panneau avant - Front panel  <<<<<< Text and holes only on this one.
 //rotate([0,-90,-90])
-if(FPanL==1)
+if(FPanL)
         translate([Length-(Thick*2+m/2),Thick+m/2,Thick+m/2])
         FPanL();
 
 //Panneau arrière - Back panel
-if(BPanL==1)
+if(BPanL)
         translate([Thick+m/2,Thick+m/2,Thick+m/2])
         BPanL();
